@@ -1,0 +1,1 @@
+xcopy /e /y "dist" "../package_ng2-bingmaps"

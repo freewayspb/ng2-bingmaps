@@ -1,0 +1,11 @@
+{
+  "getting-started": {
+    "title": "Getting started with angular2-google-maps",
+    "header_title": "Getting started",
+    "subtitle": "Let's start from zero and build an Angular 2 app with angular2-google-maps"
+  },
+  "CHANGELOG": {
+    "title": "Changelog",
+    "subtitle": "angular2-google-maps Version Changelog"
+  }
+}
