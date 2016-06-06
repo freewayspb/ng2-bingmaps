@@ -13,8 +13,7 @@
   },  
   "globalDependencies": {
     "bingmaps/microsoft.maps": "registry:dt/bingmaps/microsoft.maps#0.0.0+20160331173249",    
-    "chokidar": "registry:dt/chokidar#1.4.3+20160316155526",
-    // "colors": "registry:dt/colors#0.6.0-1+20160501135139",
+    "chokidar": "registry:dt/chokidar#1.4.3+20160316155526",    
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160317120654",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
