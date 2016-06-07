@@ -7,6 +7,7 @@ module.exports.pkg = require(path.join(__dirname, '../package.json'));
 module.exports.PATHS = {
   srcDir: 'src',
   tsSrcFiles: 'src/**/*.ts',
+  tsDemoFiles: 'demo/**/*.ts',
   tsTestFiles: [
     'test/**/*.ts',
     'typings/main.d.ts',
@@ -22,7 +23,6 @@ module.exports.PATHS = {
     ts: 'dist/ts/',
     bundles: 'dist/bundles/',
   },
-  // todo: figure out why `..` is needed here to write compiled test files to test-build/ dir
-  // instead of test-built/test/ dir.
   testBuilt: 'test-built/',
+  demoBuilt: 'demo/'
 };

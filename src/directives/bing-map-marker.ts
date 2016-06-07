@@ -126,12 +126,6 @@ export class BingMapMarker implements OnDestroy,
       }
       this.markerClick.next(null);
     });
-    this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
-        .subscribe((e: mapTypes.MouseEvent) => {
-          console.log('marker dragend, event: ' + e);
-          // todo
-          // this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-        });
   }
 
   /** @internal */

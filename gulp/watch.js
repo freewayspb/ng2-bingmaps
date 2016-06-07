@@ -8,3 +8,7 @@ gulp.task('watch:srcFiles', function watch() {
 gulp.task('watch:testfiles', function watch() {
   gulp.watch(config.PATHS.tsTestFiles, ['scripts:test']);
 });
+
+gulp.task('watch:demo', function watch() {
+  gulp.watch(config.PATHS.tsDemoFiles, ['scripts:demo']);
+});

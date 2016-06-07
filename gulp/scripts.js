@@ -78,5 +78,22 @@ gulp.task('scripts:test', function scriptsEs5() {
   ]);
 });
 
+gulp.task('scripts:demo', function scriptsEs5() {
+  const tsResult = gulp.src(config.PATHS.tsDemoFiles)
+                  .pipe(sourcemaps.init())
+                  .pipe($.typescript(taskConfigCjs));
+
+  return merge([
+    tsResult.dts
+      .pipe($.header(banner, { pkg: config.pkg } ))
+      //.pipe($.rename(replaceTestDir)),
+      .pipe(gulp.dest(config.PATHS.demoBuilt)),
+    tsResult.js
+      //.pipe($.rename(replaceTestDir))
+      .pipe(sourcemaps.write('.'))
+      .pipe(gulp.dest(config.PATHS.demoBuilt)),
+  ]);
+});
+
 
 gulp.task('scripts', ['scripts:cjs', 'scripts:es6', 'scripts:ts']);

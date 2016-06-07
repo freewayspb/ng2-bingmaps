@@ -3,6 +3,8 @@ dist
 docs_generated
 src/**/*.js
 src/**/*.map
+demo/**/*.js
+demo/**/*.map
 .tmp
 test-built
 typings

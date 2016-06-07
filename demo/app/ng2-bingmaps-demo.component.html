@@ -1,0 +1,14 @@
+<h1>
+  {{title}} 
+</h1>
+
+<div style="width:800px;height:800px;">
+  <bing-map [latitude]="lat" [longitude]="lng">
+    <bing-map-marker [latitude]="latMarker" [longitude]="lngMarker">
+      <bing-map-info-window  [latitude]="latMarker" [longitude]="lngMarker" [title]="infoWindowTitle" [description]="infoWindowDescription">
+        <bing-map-info-window-action label="Test action 1" (actionClicked)="actionClicked()"></bing-map-info-window-action>  
+        <bing-map-info-window-action label="Test action 2" (actionClicked)="actionClicked2()"></bing-map-info-window-action>
+      </bing-map-info-window>
+    </bing-map-marker>
+  </bing-map>
+</div>

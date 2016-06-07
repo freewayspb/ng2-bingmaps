@@ -146,8 +146,6 @@ export class BingMap implements OnChanges,
       center: {lat: this._latitude, lng: this._longitude},
       zoom: this._zoom
     });
-    this._handleMapCenterChange();
-    this._handleMapZoomChange();
   }
 
   /* @internal */
@@ -219,22 +217,6 @@ export class BingMap implements OnChanges,
     this._mapsWrapper.setCenter({
       lat: this._latitude,
       lng: this._longitude,
-    });
-  }
-
-  private _handleMapCenterChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('center_changed').subscribe(() => {
-      this._mapsWrapper.getCenter().then((center: LatLngLiteral) => {
-        this._latitude = center.lat;
-        this._longitude = center.lng;
-        this.centerChange.emit(<LatLngLiteral>{lat: this._latitude, lng: this._longitude});
-      });
-    });
-  }
-
-  private _handleMapZoomChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
-      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z);
     });
   }
 }

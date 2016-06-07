@@ -13,12 +13,7 @@
     "maps"
   ],
   "scripts": {
-    "build": "npm run build:ts && npm run build:lib",
-    "build:ts": "tsc -p ./",
-    "build:lib": "gulp build-lib && gulp build-lib --dev",
-    "dev-install": "typings install",
-    "test": "npm run build:ts && gulp test --specs",
-    "commit": "git-cz"
+    "postinstall": "typings install"
   },
   "author": "Youjustgo <service@youjustgo.com>",
   "license": "MIT",
@@ -39,20 +34,14 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
-    "babel-eslint": "4.1.8",
     "browser-sync": "^2.12.10",
-    "chalk": "^1.1.3",
     "del": "2.2.0",
-    "eslint": "2.4.0",
-    "eslint-config-airbnb": "1.0.0",
-    "eslint-plugin-react": "4.2.1",
     "gulp": "3.9.1",
     "gulp-bump": "2.0.1",
     "gulp-clang-format": "1.0.23",
     "gulp-connect": "3.2.0",
     "gulp-conventional-changelog": "1.0.1",
-    "gulp-eslint": "1.1.1",
-    "gulp-git": "1.7.0",
+    "gulp-git": "^1.7.2",
     "gulp-header": "^1.7.1",
     "gulp-help": "^1.6.1",
     "gulp-load-plugins": "1.1.0",
@@ -65,18 +54,14 @@
     "karma": "0.13.22",
     "karma-chrome-launcher": "0.2.2",
     "karma-jasmine": "0.3.8",
-    "merge2": "1.0.1",
-    "replace": "0.3.0",
+    "merge2": "^1.0.2",
     "require-dir": "0.3.0",
     "run-sequence": "1.1.5",
-    "systemjs": "0.19.28",
+    "systemjs": "^0.19.29",
     "systemjs-builder": "^0.15.17",
-    "ts-loader": "^0.8.2",
     "tslint": "3.6.0",
-    "typescript": "1.8.9",
-    "typings": "0.7.7",
-    "watchify": "^3.7.0",
-    "yargs": "^4.2.0"
+    "typescript": "1.8.10",
+    "typings": "1.0.4"
   },
   "jspm": {
     "jspmNodeConversion": false,
