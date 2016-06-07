@@ -12,6 +12,9 @@ export declare class Ng2BingmapsDemoAppComponent {
     lngMarker: number;
     infoWindowTitle: string;
     infoWindowDescription: string;
+    nativeMap: Microsoft.Maps.Map;
+    nativeMapChange(): void;
     actionClicked(): void;
     actionClicked2(): void;
+    calculateRoute(): void;
 }

@@ -2,8 +2,8 @@
   {{title}} 
 </h1>
 
-<div style="width:800px;height:800px;">
-  <bing-map [latitude]="lat" [longitude]="lng">
+<div style="width:800px;height:800px;float:left;">
+  <bing-map [latitude]="lat" [longitude]="lng" [(nativeMap)]="nativeMap" (nativeMapChange)="nativeMapChange()">
     <bing-map-marker [latitude]="latMarker" [longitude]="lngMarker">
       <bing-map-info-window  [latitude]="latMarker" [longitude]="lngMarker" [title]="infoWindowTitle" [description]="infoWindowDescription">
         <bing-map-info-window-action label="Test action 1" (actionClicked)="actionClicked()"></bing-map-info-window-action>  

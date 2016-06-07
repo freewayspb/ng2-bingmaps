@@ -11,15 +11,14 @@ import {LazyMapsAPILoaderConfig} from './maps-api-loader/lazy-maps-api-loader';
  */
 @Injectable()
 export class BingMapsAPIWrapper {
-  private _map: Promise<Microsoft.Maps.Map>;
+  public nativeMap: Promise<Microsoft.Maps.Map>;
   private _mapResolver: (value?: Microsoft.Maps.Map) => void;
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone, private _config: LazyMapsAPILoaderConfig) {
-    this._map =
-        new Promise<Microsoft.Maps.Map>((resolve: () => void) => { this._mapResolver = resolve; });
+    this.nativeMap = new Promise<Microsoft.Maps.Map>((resolve: () => void) => { this._mapResolver = resolve; });
   }
 
-  createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
+  createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<Microsoft.Maps.Map> {
     return this._loader.load().then(() => {
       // todo other options
       let map = new Microsoft.Maps.Map(el, {
@@ -28,13 +27,24 @@ export class BingMapsAPIWrapper {
         zoom: mapOptions.zoom,
         mapTypeId: mapOptions.mapTypeId
       });
+      
+       var infoBox = new Microsoft.Maps.Infobox(
+        new Microsoft.Maps.Location(mapOptions.center.lat, mapOptions.center.lng),
+        {
+          visible: true,
+          title: 'test',
+          description: 'test 2'
+        });
+      (<any> infoBox).setMap(map); 
+      map.entities.push(infoBox);
+      
       this._mapResolver(map);
-      return;
+      return map;
     });
   }
 
   setMapOptions(options: mapTypes.MapOptions) {
-    this._map.then((m: Microsoft.Maps.Map) => {
+    this.nativeMap.then((m: Microsoft.Maps.Map) => {
       m.setOptions({
         center: new Microsoft.Maps.Location(options.center.lat, options.center.lng),
         zoom: options.zoom,
@@ -49,7 +59,7 @@ export class BingMapsAPIWrapper {
    */
   createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
       Promise<mapTypes.Marker> {
-    return this._map.then((map: Microsoft.Maps.Map) => {
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => {
       var loc = new Microsoft.Maps.Location(options.position.lat, options.position.lng);
       var pushpin = new Microsoft.Maps.Pushpin(loc);
       map.entities.push(pushpin);
@@ -58,23 +68,24 @@ export class BingMapsAPIWrapper {
   }
 
   createInfoWindow(options?: mapTypes.InfoWindowOptions): Promise<mapTypes.InfoWindow> {
-    return this._map.then((map: Microsoft.Maps.Map) => {
-      var infoBox = new Microsoft.Maps.Infobox(
-        new Microsoft.Maps.Location(options.position.lat, options.position.lng),
-        {
-          visible: false,
-          title: options.title,
-          description: options.description,
-          actions: options.actions
-        });
-      map.entities.push(infoBox);
-      return new mapTypes.InfoWindow(map, infoBox);
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => {
+      return null;
+      // var infoBox = new Microsoft.Maps.Infobox(
+      //   new Microsoft.Maps.Location(options.position.lat, options.position.lng),
+      //   {
+      //     visible: false,
+      //     title: options.title,
+      //     description: options.description,
+      //     actions: options.actions
+      //   });
+      // map.entities.push(infoBox);
+      // return new mapTypes.InfoWindow(map, infoBox);
     });
   }
 
   subscribeToMapEvent<E>(eventName: string): Observable<E> {
     return Observable.create((observer: Observer<E>) => {
-      this._map.then((m: Microsoft.Maps.Map) => {
+      this.nativeMap.then((m: Microsoft.Maps.Map) => {
         Microsoft.Maps.Events.addHandler(m, eventName, (e: any) => {
           this._zone.run(() => observer.next(e));
         });
@@ -83,21 +94,21 @@ export class BingMapsAPIWrapper {
   }
 
   setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
-    return this._map.then((map: Microsoft.Maps.Map) => map.setOptions(
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setOptions(
         { center: new Microsoft.Maps.Location(latLng.lat, latLng.lng) }
       ));
   }
 
   getZoom(): Promise<number> {
-    return this._map.then((map: Microsoft.Maps.Map) => map.getZoom());
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => map.getZoom());
   }
 
   setZoom(zoom: number): Promise<void> {
-    return this._map.then((map: Microsoft.Maps.Map) => map.setOptions({zoom: zoom}));
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setOptions({zoom: zoom}));
   }
 
   getCenter(): Promise<mapTypes.LatLngLiteral> {
-    return this._map.then((map: Microsoft.Maps.Map) => {
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => {
       let center = map.getCenter();
       return {
         lat: center.latitude,
@@ -110,6 +121,6 @@ export class BingMapsAPIWrapper {
    * Triggers the given event name on the map instance.
    */
   triggerMapEvent(eventName: string): Promise<void> {
-    return this._map.then((m) => Microsoft.Maps.Events.invoke(m, eventName, null));
+    return this.nativeMap.then((m) => Microsoft.Maps.Events.invoke(m, eventName, null));
   }
 }

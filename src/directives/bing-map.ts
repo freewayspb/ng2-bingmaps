@@ -34,9 +34,9 @@ import {LatLngLiteral} from '../services/bing-maps-types';
   providers: [BingMapsAPIWrapper, MarkerManager, InfoWindowManager],
   inputs: [
     'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl'
+    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl', 'nativeMap'
   ],
-  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange'],
+  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'nativeMapChange'],
   host: {'[class.bing-map-container]': 'true'},
   styles: [`
     .bing-map-container-inner {
@@ -133,6 +133,13 @@ export class BingMap implements OnChanges,
    */
   centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
 
+  /**
+   * A reference to the native Microsoft.Maps.Map element
+   */
+  nativeMap: Microsoft.Maps.Map = null;
+
+  nativeMapChange: EventEmitter<Microsoft.Maps.Map> = new EventEmitter<Microsoft.Maps.Map>();
+
   constructor(private _elem: ElementRef, private _mapsWrapper: BingMapsAPIWrapper) {}
 
   /** @internal */
@@ -145,6 +152,9 @@ export class BingMap implements OnChanges,
     this._mapsWrapper.createMap(el, {
       center: {lat: this._latitude, lng: this._longitude},
       zoom: this._zoom
+    }).then(map => {
+      this.nativeMap = map;      
+      this.nativeMapChange.emit(map);
     });
   }
 
@@ -200,6 +210,8 @@ export class BingMap implements OnChanges,
     this._latitude = this._convertToDecimal(value);
     this._updateCenter();
   }
+   
+
 
   private _convertToDecimal(value: string|number, defaultValue: number = null): number {
     if (typeof value === 'string') {

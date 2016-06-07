@@ -1,6 +1,6 @@
 {
   "name": "ng2-bing-maps",
-   "dependencies": {
+  "dependencies": {
     "bluebird": "registry:npm/bluebird#3.3.4+20160515010139",
     "chalk": "registry:npm/chalk#1.0.0+20160211003958",
     "gulp": "registry:npm/gulp#3.8.0+20160211003958",
@@ -10,10 +10,11 @@
     "through2": "registry:npm/through2#2.0.0+20160308004148",
     "webpack": "registry:npm/webpack#1.12.9+20160418172948",
     "yargs": "registry:npm/yargs#3.31.0+20160316010718"
-  },  
+  },
   "globalDependencies": {
-    "bingmaps/microsoft.maps": "registry:dt/bingmaps/microsoft.maps#0.0.0+20160331173249",    
-    "chokidar": "registry:dt/chokidar#1.4.3+20160316155526",    
+    "bingmaps/microsoft.maps": "registry:dt/bingmaps/microsoft.maps#0.0.0+20160331173249",
+    "bingmaps/microsoft.maps.directions": "registry:dt/bingmaps/microsoft.maps.directions#0.0.0+20160317120654",
+    "chokidar": "registry:dt/chokidar#1.4.3+20160316155526",
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160317120654",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
@@ -32,7 +33,7 @@
     "log4js": "registry:dt/log4js#0.0.0+20160316155526",
     "micromatch": "registry:dt/micromatch#2.3.7+20160123140905",
     "node": "registry:dt/node#6.0.0+20160524002506",
-    "parse-glob": "registry:dt/parse-glob#3.0.4+20160110125512",    
+    "parse-glob": "registry:dt/parse-glob#3.0.4+20160110125512",
     "run-sequence": "registry:dt/run-sequence#0.0.0+20160316155526",
     "serve-static": "registry:dt/serve-static#0.0.0+20160501131543",
     "tmp": "registry:dt/tmp#0.0.0+20160514170650",
