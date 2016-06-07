@@ -27,17 +27,6 @@ export class BingMapsAPIWrapper {
         zoom: mapOptions.zoom,
         mapTypeId: mapOptions.mapTypeId
       });
-      
-       var infoBox = new Microsoft.Maps.Infobox(
-        new Microsoft.Maps.Location(mapOptions.center.lat, mapOptions.center.lng),
-        {
-          visible: true,
-          title: 'test',
-          description: 'test 2'
-        });
-      (<any> infoBox).setMap(map); 
-      map.entities.push(infoBox);
-      
       this._mapResolver(map);
       return map;
     });
@@ -69,17 +58,16 @@ export class BingMapsAPIWrapper {
 
   createInfoWindow(options?: mapTypes.InfoWindowOptions): Promise<mapTypes.InfoWindow> {
     return this.nativeMap.then((map: Microsoft.Maps.Map) => {
-      return null;
-      // var infoBox = new Microsoft.Maps.Infobox(
-      //   new Microsoft.Maps.Location(options.position.lat, options.position.lng),
-      //   {
-      //     visible: false,
-      //     title: options.title,
-      //     description: options.description,
-      //     actions: options.actions
-      //   });
-      // map.entities.push(infoBox);
-      // return new mapTypes.InfoWindow(map, infoBox);
+      var infoBox = new Microsoft.Maps.Infobox(
+        new Microsoft.Maps.Location(options.position.lat, options.position.lng),
+        {
+          visible: false,
+          title: options.title,
+          description: options.description,
+          actions: options.actions
+        });
+      map.entities.push(infoBox);
+      return new mapTypes.InfoWindow(map, infoBox);
     });
   }
 
