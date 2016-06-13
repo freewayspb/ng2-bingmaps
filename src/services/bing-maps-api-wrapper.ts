@@ -102,14 +102,9 @@ export class BingMapsAPIWrapper {
   }
 
   setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
-    return this.getZoom().then(zoom => {
-      return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setView(
-          {
-            center: new Microsoft.Maps.Location(latLng.lat, latLng.lng),
-            zoom: zoom
-          }
-        ));
-      });
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setView({
+      center: new Microsoft.Maps.Location(latLng.lat, latLng.lng)
+    }));
   }
 
   getZoom(): Promise<number> {

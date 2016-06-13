@@ -129,7 +129,7 @@ export class BingMapInfoWindow implements OnChanges {
   /**
    * Opens the info window.
    */
-  open(): Promise<InfoWindow> {
+  open(): Promise<void> {
     return this._infoWindowManager.open(this);
   }
 
