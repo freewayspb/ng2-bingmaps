@@ -72,7 +72,8 @@ export class BingMapsAPIWrapper {
       return this.infoBox.then((infoBox: Microsoft.Maps.Infobox) => {
         var nativeOptions: Microsoft.Maps.InfoboxOptions = {
           visible: false,
-          title: options.title,
+          title: options.title, 
+          location: new Microsoft.Maps.Location(options.position.lat, options.position.lng),
           description: options.description,
           actions: options.actions
         };

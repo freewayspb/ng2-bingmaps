@@ -88,6 +88,11 @@ export class BingMapMarker implements OnDestroy,
   ngAfterContentInit() {
     if (this._infoWindow != null) {
       this._infoWindow.hostMarker = this;
+      if (typeof this._infoWindow.latitude !== 'number' || typeof this._infoWindow.longitude !== 'number') {
+        // infowindow does not have lat and/or long. Set from marker values.
+        this._infoWindow.latitude = this.latitude;
+        this._infoWindow.longitude = this.longitude;
+      }
     }
   }
 
@@ -104,6 +109,10 @@ export class BingMapMarker implements OnDestroy,
     }
     if (changes['latitude'] || changes['longitude']) {
       this._markerManager.updateMarkerPosition(this);
+      if (typeof this._infoWindow !== 'undefined') {
+        this._infoWindow.latitude = this.latitude;
+        this._infoWindow.longitude = this.longitude;
+      }
     }
     if (changes['title']) {
       this._markerManager.updateTitle(this);
