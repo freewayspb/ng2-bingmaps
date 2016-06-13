@@ -45,25 +45,10 @@ export class LazyMapsAPILoaderConfig {
   protocol: ScriptProtocol = ScriptProtocol.HTTPS;
 
   /**
-   * Defines which Google Maps libraries should get loaded.
+   * The branch to use: Release, Experimental, or Frozen.
+   * Set to Experimental to use the newest features, or if it contains a bug fix you require. Otherwise leave blank or set to Release.
    */
-  libraries: string[] = [];
-
-  /**
-   * The default bias for the map behavior is US.
-   * If you wish to alter your application to serve different map tiles or bias the
-   * application, you can overwrite the default behavior (US) by defining a `region`.
-   * See https://developers.google.com/maps/documentation/javascript/basics#Region
-   */
-  region: string = null;
-
-  /**
-   * The Google Maps API uses the browser's preferred language when displaying
-   * textual information. If you wish to overwrite this behavior and force the API
-   * to use a given language, you can use this setting.
-   * See https://developers.google.com/maps/documentation/javascript/basics#Language
-   */
-  language: string = null;
+  branch: string = 'release';
 }
 
 const DEFAULT_CONFIGURATION = new LazyMapsAPILoaderConfig();
@@ -118,34 +103,15 @@ export class LazyMapsAPILoader extends MapsAPILoader {
         break;
     }
 
-    const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;
-    // const apiKey: string = this._config.apiKey || DEFAULT_CONFIGURATION.apiKey;
-    // const clientId: string = this._config.clientId || DEFAULT_CONFIGURATION.clientId;
-    // const channel: string = this._config.channel || DEFAULT_CONFIGURATION.channel;
-    // const libraries: string[] = this._config.libraries || DEFAULT_CONFIGURATION.libraries;
-    // const region: string = this._config.region || DEFAULT_CONFIGURATION.region;
-    // const language: string = this._config.language || DEFAULT_CONFIGURATION.language;
+    const hostAndPath: string = this._config.hostAndPath || DEFAULT_CONFIGURATION.hostAndPath;    
+    const branch: string = this._config.branch || DEFAULT_CONFIGURATION.branch;
     const queryParams: {[key: string]: string} = {
       callback: callbackName
     };
-    // if (apiKey) {
-    //   queryParams['key'] = apiKey;
-    // }
-    // if (clientId) {
-    //   queryParams['client'] = clientId;
-    // }
-    // if (channel) {
-    //   queryParams['channel'] = channel;
-    // }
-    // if (libraries != null && libraries.length > 0) {
-    //   queryParams['libraries'] = libraries.join(',');
-    // }
-    // if (region != null && region.length > 0) {
-    //   queryParams['region'] = region;
-    // }
-    // if (language != null && language.length > 0) {
-    //   queryParams['language'] = language;
-    // }
+
+    if (branch) {
+      queryParams['branch'] = branch;
+    }
     const params: string = Object.keys(queryParams)
                                .map((k: string, i: number) => {
                                  let param = (i === 0) ? '?' : '&';

@@ -106,8 +106,9 @@ export class BingMap implements OnChanges,
    * Map option attributes that can change over time
    */
   private static _mapOptionsAttributes: string[] = [
-    'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
-    'keyboardShortcuts', 'zoomControl'
+    // todo
+    // 'disableDoubleClickZoom', 'scrollwheel', 'draggableCursor', 'draggingCursor',
+    // 'keyboardShortcuts', 'zoomControl'
   ];
 
   /**
@@ -153,13 +154,17 @@ export class BingMap implements OnChanges,
       center: {lat: this._latitude, lng: this._longitude},
       zoom: this._zoom
     }).then(map => {
-      this.nativeMap = map;      
+      this.nativeMap = map;
       this.nativeMapChange.emit(map);
     });
   }
 
   /* @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+    // if (changes['latitude']) {
+    //   this.latitude = changes['latitude'];
+    //   this._markerManager.updateMarkerPosition(this);
+    // }
     this._updateMapOptionsChanges(changes);
   }
 
@@ -210,8 +215,6 @@ export class BingMap implements OnChanges,
     this._latitude = this._convertToDecimal(value);
     this._updateCenter();
   }
-   
-
 
   private _convertToDecimal(value: string|number, defaultValue: number = null): number {
     if (typeof value === 'string') {

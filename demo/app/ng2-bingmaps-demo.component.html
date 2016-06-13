@@ -1,11 +1,22 @@
 <h1>
   {{title}} 
 </h1>
-
+<p>
+  Latitude: <input [(ngModel)]="lat"/> <br/>
+  Longitude: <input [(ngModel)]="lng"/> <br/>
+  Zoom: <input [(ngModel)]="zoom" /> 
+</p>
 <div style="width:800px;height:800px;float:left;">
-  <bing-map [latitude]="lat" [longitude]="lng" [(nativeMap)]="nativeMap" (nativeMapChange)="nativeMapChange()">
+  <bing-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [(nativeMap)]="nativeMap" (nativeMapChange)="nativeMapChange()">
     <bing-map-marker [latitude]="latMarker" [longitude]="lngMarker">
-      <bing-map-info-window  [latitude]="latMarker" [longitude]="lngMarker" [title]="infoWindowTitle" [description]="infoWindowDescription">
+      <bing-map-info-window [title]="infoWindowTitle" [description]="infoWindowDescription" [height]="infoWindowHeight" [width]="infoWindowWidth">
+        <bing-map-info-window-action label="Test action 1" (actionClicked)="actionClicked()"></bing-map-info-window-action>  
+        <bing-map-info-window-action label="Test action 2" (actionClicked)="actionClicked2()"></bing-map-info-window-action>
+      </bing-map-info-window>
+    </bing-map-marker>
+
+    <bing-map-marker [latitude]="latMarker2" [longitude]="lngMarker2">
+      <bing-map-info-window  [title]="infoWindowTitle" [description]="infoWindowDescription" [height]="infoWindowHeight" [width]="infoWindowWidth">
         <bing-map-info-window-action label="Test action 1" (actionClicked)="actionClicked()"></bing-map-info-window-action>  
         <bing-map-info-window-action label="Test action 2" (actionClicked)="actionClicked2()"></bing-map-info-window-action>
       </bing-map-info-window>

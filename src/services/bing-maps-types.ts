@@ -82,7 +82,9 @@ export class InfoWindow {
   open(): void{
     // when using custom HTML, you have to do setMap.
     (<any> this.infoBox).setMap(this.map);
-    this.infoBox.setOptions({visible: true});
+    this.infoBox.setOptions({
+      visible: true 
+    });
   };
   setOptions(options: InfoWindowOptions): void{
     this.infoBox.setOptions({
@@ -108,11 +110,9 @@ export interface Size {
 export interface InfoWindowOptions {
   title?: string;
   description?: string;
-  disableAutoPan?: boolean;
-  maxWidth?: number;
-  pixelOffset?: Size;
+  height?: number;
+  width?: number;
   position?: LatLngLiteral;
-  zIndex?: number;
   actions?: InfoWindowAction[];
 }
 

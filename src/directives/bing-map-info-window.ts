@@ -1,7 +1,8 @@
-import {Component, SimpleChange, OnDestroy, OnChanges, EventEmitter, ContentChildren, QueryList} from '@angular/core';
+import {Component, SimpleChange, OnChanges, EventEmitter, ContentChildren, QueryList} from '@angular/core';
 import {InfoWindowManager} from '../services/info-window-manager';
 import {BingMapMarker} from './bing-map-marker';
 import {BingMapInfoWindowAction} from './bing-map-info-window-action';
+import {InfoWindow} from '../services/bing-maps-types';
 
 let infoWindowId = 0;
 
@@ -24,8 +25,7 @@ let infoWindowId = 0;
  *  template: `
  *    <bing-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
  *      <bing-map-marker [latitude]="lat" [longitude]="lng" [label]="'M'">
- *        <bing-map-info-window [disableAutoPan]="true">
- *          Hi, this is the content of the <strong>info window</strong>
+ *        <bing-map-info-window [title]="title" [description]="description" [height]="height" [width]="width"> 
  *        </bing-map-info-window>
  *      </bing-map-marker>
  *    </bing-map>
@@ -35,14 +35,13 @@ let infoWindowId = 0;
  */
 @Component({
   selector: 'bing-map-info-window',
-  inputs: ['latitude', 'longitude', 'disableAutoPan', 'title', 'description'],
+  inputs: ['latitude', 'longitude', 'disableAutoPan', 'title', 'description', 'height', 'width'],
   directives: [BingMapInfoWindowAction],
   template: '',
   outputs: ['infoWindowClose']
 })
 // onclick="console.log(window.infoWindow); window.infoWindow.close();return false;"
-export class BingMapInfoWindow implements OnDestroy,
-    OnChanges {
+export class BingMapInfoWindow implements OnChanges {
   /**
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
    * SebmGoogleMapMarker}).
@@ -64,6 +63,16 @@ export class BingMapInfoWindow implements OnDestroy,
    * The description to display in the info window. 
    */
   description: string;
+
+  /**
+   * The height of the infobox. Default 126.
+   */
+  height: number;
+
+  /**
+   * Thw width of the infobox. Default 256.
+   */
+  width: number;
 
   /**
    * Disable auto-pan on open. By default, the info window will pan the map so that it is fully
@@ -93,41 +102,34 @@ export class BingMapInfoWindow implements OnDestroy,
    */
   @ContentChildren(BingMapInfoWindowAction) infoWindowActions: QueryList<BingMapInfoWindowAction>;
 
-  private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth', 'title', 'description'];
-  private _infoWindowAddedToManager: boolean = false;
+  private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth', 'title', 'description'];  
   private _id: string = (infoWindowId++).toString();
 
   constructor(private _infoWindowManager: InfoWindowManager) {}
 
-  ngAfterContentInit() {
-    this._infoWindowManager.addInfoWindow(this);
-    this._infoWindowAddedToManager = true;
-  }
-
   /** @internal */
   ngOnChanges(changes: {[key: string]: SimpleChange}) {
-    if (!this._infoWindowAddedToManager) {
-      return;
-    }
-    if ((changes['latitude'] || changes['longitude']) && typeof this.latitude === 'number' &&
-        typeof this.longitude === 'number') {
-      this._infoWindowManager.setPosition(this);
-    }
-    this._setInfoWindowOptions(changes);
+    // todo check if opened, ask the infowindowmanager
+    // then implement below.
+    // if ((changes['latitude'] || changes['longitude']) && typeof this.latitude === 'number' &&
+    //     typeof this.longitude === 'number') {
+    //   this._infoWindowManager.setPosition(this);
+    // }
+    // this._setInfoWindowOptions(changes);
   }
 
-  private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
-    let options: {[propName: string]: any} = {};
-    let optionKeys = Object.keys(changes).filter(
-        k => BingMapInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
-    optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
-    this._infoWindowManager.setOptions(this, options);
-  }
+  // private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
+  //   let options: {[propName: string]: any} = {};
+  //   let optionKeys = Object.keys(changes).filter(
+  //       k => BingMapInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
+  //   optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
+  //   this._infoWindowManager.setOptions(options);
+  // }
 
   /**
    * Opens the info window.
    */
-  open(): Promise<void> {
+  open(): Promise<InfoWindow> {
     return this._infoWindowManager.open(this);
   }
 
@@ -135,7 +137,7 @@ export class BingMapInfoWindow implements OnDestroy,
    * Closes the info window.
    */
   close(): Promise<void> {
-    return this._infoWindowManager.close(this).then(() => { this.infoWindowClose.emit(void 0); });
+    return this._infoWindowManager.close().then(() => { this.infoWindowClose.emit(void 0); });
   }
 
   /** @internal */
@@ -143,7 +145,4 @@ export class BingMapInfoWindow implements OnDestroy,
 
   /** @internal */
   toString(): string { return 'BingMapInfoWindow-' + this._id.toString(); }
-
-  /** @internal */
-  ngOnDestroy() { this._infoWindowManager.deleteInfoWindow(this); }
 }

@@ -5,53 +5,42 @@ import {InfoWindow, InfoWindowOptions} from './bing-maps-types';
 
 @Injectable()
 export class InfoWindowManager {
-  private _infoWindows: Map<BingMapInfoWindow, Promise<InfoWindow>> =
-      new Map<BingMapInfoWindow, Promise<InfoWindow>>();
-
   constructor(private _mapsWrapper: BingMapsAPIWrapper, private _zone: NgZone) {}
 
-  deleteInfoWindow(infoWindow: BingMapInfoWindow): Promise<void> {
-    const iWindow = this._infoWindows.get(infoWindow);
-    if (iWindow == null) {
-      // info window already deleted
-      return Promise.resolve();
-    }
-    return iWindow.then((i: InfoWindow) => {
-      return this._zone.run(() => {
-        i.close();
-        this._infoWindows.delete(infoWindow);
-      });
-    });
-  }
-
   setPosition(infoWindow: BingMapInfoWindow): Promise<void> {
-    return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setPosition({
+    return this._mapsWrapper.getInfoWindow().then((i: InfoWindow) => i.setPosition({
       lat: infoWindow.latitude,
       lng: infoWindow.longitude
     }));
   }
 
-  open(infoWindow: BingMapInfoWindow): Promise<void> {
-    return this._infoWindows.get(infoWindow).then((w) => {
-      w.open();
-    });
+  // open(infoWindow: BingMapInfoWindow): Promise<void> {
+  //   return this._infoWindows.get(infoWindow).then((w) => {
+  //     w.open();
+  //   });
+  // }
+
+  close(): Promise<void> {
+    return this._mapsWrapper.getInfoWindow().then((w) => w.close());
   }
 
-  close(infoWindow: BingMapInfoWindow): Promise<void> {
-    return this._infoWindows.get(infoWindow).then((w) => w.close());
+  setOptions(options: InfoWindowOptions) {
+    return this._mapsWrapper.getInfoWindow().then((w) => w.setOptions(options));
   }
 
-  setOptions(infoWindow: BingMapInfoWindow, options: InfoWindowOptions) {
-    return this._infoWindows.get(infoWindow).then((i: InfoWindow) => i.setOptions(options));
-  }
-
-  addInfoWindow(infoWindow: BingMapInfoWindow) {
+  open(infoWindow: BingMapInfoWindow) {
     const options: InfoWindowOptions = {
       title: infoWindow.title,
       description: infoWindow.description
     };
     if (typeof infoWindow.latitude === 'number' && typeof infoWindow.longitude === 'number') {
       options.position = {lat: infoWindow.latitude, lng: infoWindow.longitude};
+    }
+    if (typeof infoWindow.height === 'number') {
+      options.height = infoWindow.height;
+    }
+    if (typeof infoWindow.width === 'number') {
+      options.width = infoWindow.width;
     }
 
     if (typeof infoWindow.infoWindowActions !== 'undefined' && infoWindow.infoWindowActions.length > 0) {
@@ -63,7 +52,8 @@ export class InfoWindowManager {
         });
       });
     }
-    const infoWindowPromise = this._mapsWrapper.createInfoWindow(options);
-    this._infoWindows.set(infoWindow, infoWindowPromise);
+    return this._mapsWrapper.getInfoWindow(options).then(i => {
+      i.open();
+    });
   }
 }

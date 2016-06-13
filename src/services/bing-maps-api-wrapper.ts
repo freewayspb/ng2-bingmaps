@@ -12,7 +12,9 @@ import {LazyMapsAPILoaderConfig} from './maps-api-loader/lazy-maps-api-loader';
 @Injectable()
 export class BingMapsAPIWrapper {
   public nativeMap: Promise<Microsoft.Maps.Map>;
-  private _mapResolver: (value?: Microsoft.Maps.Map) => void;
+  public infoBox: Promise<Microsoft.Maps.Infobox> = null;
+  private _infoBoxResolver: (value?: Microsoft.Maps.Infobox) => void;
+  private _mapResolver: (value?: Microsoft.Maps.Map) => void = null;
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone, private _config: LazyMapsAPILoaderConfig) {
     this.nativeMap = new Promise<Microsoft.Maps.Map>((resolve: () => void) => { this._mapResolver = resolve; });
@@ -28,6 +30,15 @@ export class BingMapsAPIWrapper {
         mapTypeId: mapOptions.mapTypeId
       });
       this._mapResolver(map);
+
+      /**
+       * Create one infobox which is reused.
+       */
+      this.infoBox = new Promise<Microsoft.Maps.Infobox>((resolve: () => void) => { this._infoBoxResolver = resolve; });
+      var infoBox = new Microsoft.Maps.Infobox(
+        new Microsoft.Maps.Location(0, 0), {});
+      this._infoBoxResolver(infoBox);
+
       return map;
     });
   }
@@ -56,18 +67,26 @@ export class BingMapsAPIWrapper {
     });
   }
 
-  createInfoWindow(options?: mapTypes.InfoWindowOptions): Promise<mapTypes.InfoWindow> {
+  getInfoWindow(options?: mapTypes.InfoWindowOptions): Promise<mapTypes.InfoWindow> {
     return this.nativeMap.then((map: Microsoft.Maps.Map) => {
-      var infoBox = new Microsoft.Maps.Infobox(
-        new Microsoft.Maps.Location(options.position.lat, options.position.lng),
-        {
+      return this.infoBox.then((infoBox: Microsoft.Maps.Infobox) => {
+        var nativeOptions: Microsoft.Maps.InfoboxOptions = {
           visible: false,
           title: options.title,
           description: options.description,
           actions: options.actions
-        });
-      map.entities.push(infoBox);
-      return new mapTypes.InfoWindow(map, infoBox);
+        };
+
+        if (options.height > 0) {
+          nativeOptions.height = options.height;
+        }
+
+        if (options.width > 0) {
+          nativeOptions.width = options.width;
+        }
+        infoBox.setOptions(nativeOptions);
+        return new mapTypes.InfoWindow(map, infoBox);
+      });
     });
   }
 
@@ -82,9 +101,14 @@ export class BingMapsAPIWrapper {
   }
 
   setCenter(latLng: mapTypes.LatLngLiteral): Promise<void> {
-    return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setOptions(
-        { center: new Microsoft.Maps.Location(latLng.lat, latLng.lng) }
-      ));
+    return this.getZoom().then(zoom => {
+      return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setView(
+          {
+            center: new Microsoft.Maps.Location(latLng.lat, latLng.lng),
+            zoom: zoom
+          }
+        ));
+      });
   }
 
   getZoom(): Promise<number> {
@@ -92,7 +116,7 @@ export class BingMapsAPIWrapper {
   }
 
   setZoom(zoom: number): Promise<void> {
-    return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setOptions({zoom: zoom}));
+    return this.nativeMap.then((map: Microsoft.Maps.Map) => map.setView({zoom: zoom}));
   }
 
   getCenter(): Promise<mapTypes.LatLngLiteral> {

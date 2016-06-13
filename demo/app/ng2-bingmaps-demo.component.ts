@@ -9,14 +9,22 @@ import { NG2_BINGMAPS_DIRECTIVES } from '../../dist/directives';
   directives: [NG2_BINGMAPS_DIRECTIVES]
 })
 export class Ng2BingmapsDemoAppComponent {
-  title = 'ng2-bingmaps-demo works!';
+  title: string = 'ng2-bingmaps-demo works!';
   lat: number = -41.2865;
   lng: number = 174.7762;
+  zoom: number = 15;
 
   latMarker: number = -40.2865;
   lngMarker: number = 173.7762;
+
+  latMarker2: number = -40.1865;
+  lngMarker2: number = 173.1762;
   infoWindowTitle: string = 'Title info';
-  infoWindowDescription: string = 'Info description';
+  infoWindowHeight: number = 400;
+  infoWindowWidth: number = 500;
+  infoWindowDescription: string = `<div class="description">This is the description. It can contain HTML (requires branch experimental at the moment!!), like links: <a href="http://bing.com">BING</a><br/>
+  and images: <img src="https://showtheway.io/img/showtheway-bing-maps.png" alt="bing map icon"/>
+  </div>`;
   nativeMap: Microsoft.Maps.Map = null;
 
   nativeMapChange() {
