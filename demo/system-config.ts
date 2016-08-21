@@ -21,6 +21,7 @@ const barrels: string[] = [
   '@angular/common',
   '@angular/compiler',
   '@angular/http',
+  '@angular/forms',
   '@angular/router',
   '@angular/platform-browser',
   '@angular/platform-browser-dynamic',
@@ -29,8 +30,11 @@ const barrels: string[] = [
   'rxjs',
   '../dist',  
 
+
   // App specific barrels.
   'app',
+  'demo',
+  'demo/app',
   'app/shared',
   /** @cli-barrel */
 ];

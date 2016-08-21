@@ -5,11 +5,10 @@ import { NG2_BINGMAPS_DIRECTIVES } from '../../dist/directives';
   moduleId: module.id,
   selector: 'ng2-bingmaps-demo-app',
   templateUrl: 'ng2-bingmaps-demo.component.html',
-  styleUrls: ['ng2-bingmaps-demo.component.css'],
-  directives: [NG2_BINGMAPS_DIRECTIVES]
+  styleUrls: ['ng2-bingmaps-demo.component.css']
 })
 export class Ng2BingmapsDemoAppComponent {
-  title: string = 'ng2-bingmaps-demo works!';
+  title: string = 'ng2-bingmaps-demo works!!';
   lat: number = -41.2865;
   lng: number = 174.7762;
   zoom: number = 15;

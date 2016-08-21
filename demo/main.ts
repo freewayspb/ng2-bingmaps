@@ -7,12 +7,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-bootstrap(Ng2BingmapsDemoAppComponent,
-  [NG2_BINGMAPS_PROVIDERS,
-    provide(LazyMapsAPILoaderConfig, {useFactory: () => {
-      let config = new LazyMapsAPILoaderConfig();
-      config.apiKey = 'Ag22S8u9otClss0bIlPsBZi9hrOBbvLEa2M8LrD3sTkgZJgiisRJWNeL4sUxOSpf';
-      config.branch = 'experimental'; // to be able to use custom HTML in descriptions
-      return config;
-    }}),
-  ]);
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule }              from './app/app.module';
+
+platformBrowserDynamic().bootstrapModule(AppModule);
