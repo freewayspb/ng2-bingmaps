@@ -3,7 +3,7 @@ import {Provider, NgModule, provide, ModuleWithProviders} from '@angular/core';
 import {NG2_BINGMAPS_DIRECTIVES} from './directives';
 import {MarkerManager} from './services';
 import {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
-import {LazyMapsAPILoader,LazyMapsAPILoader2, LazyMapsAPILoaderConfig} from './services/maps-api-loader/lazy-maps-api-loader';
+import {LazyMapsAPILoader, LazyMapsAPILoaderConfig} from './services/maps-api-loader/lazy-maps-api-loader';
 
 // main modules
 export * from './directives';

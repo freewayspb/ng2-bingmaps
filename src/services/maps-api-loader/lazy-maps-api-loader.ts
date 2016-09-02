@@ -53,10 +53,6 @@ export class LazyMapsAPILoaderConfig {
 
 const DEFAULT_CONFIGURATION = new LazyMapsAPILoaderConfig();
 
-@Injectable() 
-export class LazyMapsAPILoader2 {
-}
-
 @Injectable()
 export class LazyMapsAPILoader extends MapsAPILoader {
   private _scriptLoadingPromise: Promise<void>;
