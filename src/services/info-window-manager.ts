@@ -31,7 +31,9 @@ export class InfoWindowManager {
   open(infoWindow: BingMapInfoWindow) {
     const options: InfoWindowOptions = {
       title: infoWindow.title,
-      description: infoWindow.description
+      description: infoWindow.description,
+      height: infoWindow.height,
+      width: infoWindow.width
     };
     if (typeof infoWindow.latitude === 'number' && typeof infoWindow.longitude === 'number') {
       options.position = {lat: infoWindow.latitude, lng: infoWindow.longitude};

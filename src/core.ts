@@ -1,5 +1,3 @@
-
-
 import {Provider, NgModule, ModuleWithProviders} from '@angular/core';
 
 import {NG2_BINGMAPS_DIRECTIVES} from './directives';

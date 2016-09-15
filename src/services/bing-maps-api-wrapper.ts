@@ -79,11 +79,11 @@ export class BingMapsAPIWrapper {
         };
 
         if (options.height > 0) {
-          nativeOptions.height = options.height;
+          (<any>nativeOptions).maxHeight = options.height;
         }
 
         if (options.width > 0) {
-          nativeOptions.width = options.width;
+          (<any>nativeOptions).maxWidth = options.width;          
         }
         infoBox.setOptions(nativeOptions);
         return new mapTypes.InfoWindow(map, infoBox);
