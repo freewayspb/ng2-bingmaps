@@ -1,4 +1,6 @@
-import {Provider, NgModule, provide, ModuleWithProviders} from '@angular/core';
+
+
+import {Provider, NgModule, ModuleWithProviders} from '@angular/core';
 
 import {NG2_BINGMAPS_DIRECTIVES} from './directives';
 import {MarkerManager} from './services';
@@ -10,9 +12,10 @@ export * from './directives';
 export * from './services';
 
 /* deprecated */
-export const NG2_BINGMAPS_PROVIDERS: any[] = [
-  provide(MapsAPILoader, {useClass: LazyMapsAPILoader}),
-];
+export const NG2_BINGMAPS_PROVIDERS: any[] = [ {
+  provide: MapsAPILoader,
+  useClass: LazyMapsAPILoader
+}];
 
 
 /**
@@ -28,9 +31,11 @@ export class BingMapsModule {
       ngModule: BingMapsModule,
       providers:        [
         NG2_BINGMAPS_PROVIDERS,     
-        provide(LazyMapsAPILoaderConfig, {useFactory: () => {          
+        {
+          provide: LazyMapsAPILoaderConfig,
+          useFactory: () => {          
           return config;
-        }}),
+        }},
       ],
     };
   }

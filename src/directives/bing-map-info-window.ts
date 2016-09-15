@@ -36,7 +36,6 @@ let infoWindowId = 0;
 @Component({
   selector: 'bing-map-info-window',
   inputs: ['latitude', 'longitude', 'disableAutoPan', 'title', 'description', 'height', 'width'],
-  directives: [BingMapInfoWindowAction],
   template: '',
   outputs: ['infoWindowClose']
 })

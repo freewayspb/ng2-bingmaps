@@ -3,12 +3,20 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-  
+  '@angular' :'vendor/@angular',
 };
 
 /** User packages configuration. */
 const packages: any = {
-  
+  'vendor/rxjs'                             : {main: 'Rx'},
+  'vendor/@angular/core'                    : {main: 'bundles/core.umd.min.js'},
+  'vendor/@angular/forms'                   : {main: 'bundles/forms.umd.min.js'},
+  'vendor/@angular/common'                  : {main: 'bundles/common.umd.min.js'},
+  'vendor/@angular/compiler'                : {main: 'bundles/compiler.umd.min.js'},
+  'vendor/@angular/router'                  : {main: 'bundles/router.umd.min.js'},
+  'vendor/@angular/platform-browser'        : {main: 'bundles/platform-browser.umd.min.js'},
+  'vendor/@angular/platform-browser-dynamic': {main: 'bundles/platform-browser-dynamic.umd.min.js'},
+  'vendor/@angular/http' : {main: 'bundles/http.umd.min.js'}
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,18 +24,7 @@ const packages: any = {
  * Everything underneath this line is managed by the CLI.
  **********************************************************************************************/
 const barrels: string[] = [
-  // Angular specific barrels.
-  '@angular/core',
-  '@angular/common',
-  '@angular/compiler',
-  '@angular/http',
-  '@angular/forms',
-  '@angular/router',
-  '@angular/platform-browser',
-  '@angular/platform-browser-dynamic',
-
   // Thirdparty barrels.
-  'rxjs',
   '../dist',  
 
 
