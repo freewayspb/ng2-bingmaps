@@ -32,18 +32,12 @@ export class InfoWindowManager {
     const options: InfoWindowOptions = {
       title: infoWindow.title,
       description: infoWindow.description,
-      height: infoWindow.height,
-      width: infoWindow.width
+      height: +infoWindow.height,
+      width: +infoWindow.width
     };
     if (typeof infoWindow.latitude === 'number' && typeof infoWindow.longitude === 'number') {
       options.position = {lat: infoWindow.latitude, lng: infoWindow.longitude};
-    }
-    if (typeof infoWindow.height === 'number') {
-      options.height = infoWindow.height;
-    }
-    if (typeof infoWindow.width === 'number') {
-      options.width = infoWindow.width;
-    }
+    }   
 
     if (typeof infoWindow.infoWindowActions !== 'undefined' && infoWindow.infoWindowActions.length > 0) {
       options.actions = [];

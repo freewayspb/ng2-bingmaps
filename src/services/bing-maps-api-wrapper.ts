@@ -70,23 +70,28 @@ export class BingMapsAPIWrapper {
   getInfoWindow(options?: mapTypes.InfoWindowOptions): Promise<mapTypes.InfoWindow> {
     return this.nativeMap.then((map: Microsoft.Maps.Map) => {
       return this.infoBox.then((infoBox: Microsoft.Maps.Infobox) => {
-        var nativeOptions: Microsoft.Maps.InfoboxOptions = {
-          visible: false,
-          title: options.title, 
-          location: new Microsoft.Maps.Location(options.position.lat, options.position.lng),
-          description: options.description,
-          actions: options.actions
-        };
-
-        if (options.height > 0) {
-          (<any>nativeOptions).maxHeight = options.height;
+        if (typeof options === "undefined" || options == null) {          
+          return new mapTypes.InfoWindow(map, infoBox);
         }
+        else {
+          var nativeOptions: Microsoft.Maps.InfoboxOptions = {
+            visible: false,
+            title: options.title, 
+            location: new Microsoft.Maps.Location(options.position.lat, options.position.lng),
+            description: options.description,
+            actions: options.actions
+          };
 
-        if (options.width > 0) {
-          (<any>nativeOptions).maxWidth = options.width;          
+          if (options.height > 0) {
+            (<any>nativeOptions).maxHeight = options.height;
+          }
+
+          if (options.width > 0) {
+            (<any>nativeOptions).maxWidth = options.width;          
+          }
+          infoBox.setOptions(nativeOptions);
+          return new mapTypes.InfoWindow(map, infoBox);
         }
-        infoBox.setOptions(nativeOptions);
-        return new mapTypes.InfoWindow(map, infoBox);
       });
     });
   }

@@ -16,6 +16,7 @@ export const NG2_BINGMAPS_PROVIDERS: any[] = [ {
 }];
 
 
+
 /**
  * The ng2-bing-maps core module. Contains all Directives/Services/Pipes
  * of the core module. Please use `BingMapsModule.forRoot(config)` in your app module.
@@ -31,9 +32,8 @@ export class BingMapsModule {
         NG2_BINGMAPS_PROVIDERS,     
         {
           provide: LazyMapsAPILoaderConfig,
-          useFactory: () => {          
-          return config;
-        }},
+          useValue: config
+        }
       ],
     };
   }
