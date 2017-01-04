@@ -1,5 +1,3 @@
-# THIS LIBRARY IS NO LONGER MAINTAINED AND WILL BE DELETED SOON!
-
 # Angular 2 implementation of Bing Maps V8.
 This project builds the Bing Maps V8 API as Angular2 components and services. Currently the following features are supported:
 - Lazy map loading
